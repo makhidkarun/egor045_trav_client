@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}egor045 Traveller Tools{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>egor045 Traveller Tools</h1>
+</div>
+<div class="page_content">
+    {% if intro_text %}
+    <p> {{ intro_text }} </p>
+    {% endif %}
+    <ul>
+    {% for link in links %}
+    <li><a href="{{ link.uri }}">{{ link.text }}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{% endblock %}
