@@ -6,7 +6,11 @@
 
 {% block page_content %}
 <div class="page-header">
+    {% if header_text %}
+    <h1>{{ header_text }}</h1>
+    {% else %}
     <h1>egor045 Traveller Tools</h1>
+    {% endif %}
 </div>
 <div class="page_content">
     {% if intro_text %}
