@@ -5,7 +5,7 @@ import logging
 import requests
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
-from wtforms.validators import Regexp
+from wtforms.validators import Regexp, Optional
 from . import main
 from flask import render_template
 
@@ -23,7 +23,7 @@ class SourceWorldForm(FlaskForm):
         validators=[Regexp(UWP_REGEXP)])
     market_uwp = StringField(
         'Market world UWP',
-        validators=[Regexp(UWP_REGEXP)])
+        validators=[Regexp(UWP_REGEXP), Optional()])
     submit = SubmitField('Submit')
 
 

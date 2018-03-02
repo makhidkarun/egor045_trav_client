@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Angular Diameter{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle"
+            data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">egor045 Traveller Tools</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                <li><a href="{{ url_for('main.misc_index') }}">Misc</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>Angular Diameter</h1>
+    </div>
+    <div class="body">
+        {{ wtf.quick_form(form) }}
+        {% if data.diameter %}
+            <h3>Angular diameter</h3>
+            <table width="50%" cellpadding="10">
+                <tr>
+                    <td>Diameter</td><td>{{ data.diameter }}</td>
+                </tr>
+                <tr>
+                    <td>Distance</td><td>{{ data.distance }}</td>
+                </tr>
+                <tr>
+                    <td>Angular diameter</td>
+                    <td>{{ data.ang_dia_deg }} (degrees)<br>
+                        {{ data.ang_dia_rad }} (radians)
+                    </td>
+            </table>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
