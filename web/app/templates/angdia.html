@@ -47,6 +47,15 @@
                     </td>
             </table>
         {% endif %}
+        {% if doc %}
+            <hr>
+            <h4>API documentation</h4>
+            <samp>
+            {% for line in doc %}
+                {{ line }}<br>
+            {% endfor %}
+            </samp>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
