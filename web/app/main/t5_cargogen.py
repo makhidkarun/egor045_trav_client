@@ -7,7 +7,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import Regexp, Optional
 from . import main
-from flask import render_template
+from flask import render_template, current_app
 
 LOGGER = logging.getLogger(__name__)
 LOGGER.setLevel(logging.ERROR)
@@ -22,7 +22,7 @@ class SourceWorldForm(FlaskForm):
         'Source world UWP',
         validators=[Regexp(UWP_REGEXP)])
     market_uwp = StringField(
-        'Market world UWP',
+        'Market world UWP (optional)',
         validators=[Regexp(UWP_REGEXP), Optional()])
     submit = SubmitField('Submit')
 
@@ -31,7 +31,8 @@ class SourceWorldForm(FlaskForm):
 def t5_cargogen():
     '''Generate cargo'''
     cargo = {}
-    base_api_url = 'https://api.trav.phraction.org/t5/cargogen'
+    base_api_url = 'https://{}/t5/cargogen'.format(
+        current_app.config['API_SERVER'])
     form = SourceWorldForm()
     # source_world_uwp = ''
     # source_world_tcs = ''
