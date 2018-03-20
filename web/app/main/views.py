@@ -29,6 +29,7 @@ def t5_index():
     intro_text = 'T5 utilities'
     links = [
         {'text': 'T5 cargogen', 'uri': '/t5/cargogen'},
+        {'text': 'T5 orbit details', 'uri': '/t5/orbit'}
     ]
     return render_template(
         'index.html',
