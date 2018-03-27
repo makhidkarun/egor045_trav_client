@@ -31,7 +31,7 @@ class SourceWorldForm(FlaskForm):
 def t5_cargogen():
     '''Generate cargo'''
     cargo = {}
-    base_api_url = 'https://{}/t5/cargogen'.format(
+    base_api_url = '{}/t5/cargogen'.format(
         current_app.config['API_SERVER'])
     form = SourceWorldForm()
     # source_world_uwp = ''

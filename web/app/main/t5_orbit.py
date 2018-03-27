@@ -26,7 +26,7 @@ class OrbitForm(FlaskForm):
 def t5_orbit():
     '''Orbit processor'''
     orbit = {}
-    base_api_url = 'https://{}/t5/orbit'.format(
+    base_api_url = '{}/t5/orbit'.format(
         current_app.config['API_SERVER'])
     form = OrbitForm()
     if form.validate_on_submit():

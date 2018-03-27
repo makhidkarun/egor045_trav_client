@@ -4,8 +4,9 @@ import requests
 from flask_wtf import FlaskForm
 from wtforms import FloatField, SubmitField
 from wtforms.validators import Required, ValidationError
-from . import main
 from flask import render_template, current_app
+from . import main
+
 
 LOGGER = logging.getLogger(__name__)
 LOGGER.setLevel(logging.ERROR)
@@ -26,7 +27,7 @@ class AngDiaForm(FlaskForm):
 @main.route('/misc/angdia', methods=['GET', 'POST'])
 def angdia():
     '''Return angular diameter of object diameter D, range R'''
-    base_api_url = 'https://{}/misc/angdia'.format(
+    base_api_url = '{}/misc/angdia'.format(
         current_app.config['API_SERVER'])
     data = {}
     form = AngDiaForm()
