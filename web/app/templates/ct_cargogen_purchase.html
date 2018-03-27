@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Classic Traveller Cargo Generator - Purchase{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle"
+            data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">egor045 Traveller Tools</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                <li><a href="{{ url_for('main.ct_index') }}">Classic Traveller</a></li>
+                <li><a href="{{ url_for('main.ct_lbb2_cargogen') }}">Classic Traveller LBB2 cargogen</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>Classic Traveller LBB2 Cargo Generator</h1>
+    </div>
+    <div class="body">
+        {{ wtf.quick_form(form) }}
+        {% if source %}
+            <h3>Source world details</h3>
+            <table cellpadding="10">
+                <tr>
+                    <td width="60%">UWP</td><td valign="top">{{ source }}</td>
+                </tr>
+                <tr>
+                    <td>Trade codes</td><td valign="top">{{ ' '.join(cargo.trade_codes) }}</td>
+               </tr>
+            </table>
+            <h3>Cargo details</h3>
+            <table cellpadding="10">
+                <tr>
+                    <td valign="top" width="50%">Cargo</td>
+                    <td valign="top">{{ cargo.name }} (table ID {{cargo.id}})</td>
+                </tr>
+                <tr>
+                    <td valign="top">Quantity</td>
+                    <td valign="top">{{ cargo.quantity }} {{ cargo.units }}</td>
+                </tr>
+                <tr>
+                    <td valign="top">Base price</td>
+                    <td valign="top">Cr{{ cargo.base_price }} (unit)</td>
+                </tr>
+                <tr>
+                    <td valign="top">Actual price</td>
+                    <td valign="top">
+                        Cr{{ cargo.actual_unit_price }} (unit)<br>
+                        Cr{{ cargo.actual_lot_price }} (lot)
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" width="50%">Purchase DMs   </td>
+                    <td valign="top">
+                        {% for code in cargo.purchase_dms %}
+                            {{ code }}: {{ cargo.purchase_dms[code] }}
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Resale DMs   </td>
+                    <td valign="top">
+                        {% for code in cargo.resale_dms %}
+                            {{ code }}: {{ cargo.resale_dms[code] }}
+                        {% endfor %}
+                    </td>
+                </tr>
+            </table>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

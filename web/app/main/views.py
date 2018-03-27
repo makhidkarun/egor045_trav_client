@@ -1,7 +1,7 @@
 '''views.py'''
 
-from . import main
 from flask import render_template
+from . import main  # noqa
 
 
 @main.route('/')
@@ -12,8 +12,8 @@ def index():
         "ease the burden of refereeing Traveller games."
     links = [
         {'text': 'Traveller 5 utilities', 'uri': '/t5/'},
-        # {'text': 'Classic Traveller', 'uri': '/ct/'},
-        {'text': 'Miscellaneous links', 'uri': '/misc/'}
+        {'text': 'Classic Traveller utilities', 'uri': '/ct/'},
+        {'text': 'Miscellaneous utilities', 'uri': '/misc/'}
     ]
     return render_template(
         'index.html',
@@ -35,6 +35,39 @@ def t5_index():
         'index.html',
         title='Home',
         header_text='egor045 Traveller Tools - T5',
+        intro_text=intro_text,
+        links=links)
+
+
+@main.route('/ct/')
+@main.route('/ct/index')
+def ct_index():
+    '''CT index'''
+    intro_text = 'Classic Traveller utilities'
+    links = [
+        {'text': 'LBB2 cargogen', 'uri': '/ct/lbb2/cargogen'}
+    ]
+    return render_template(
+        'index.html',
+        title='Home',
+        header_text='egor045 Traveller Tools - Classic Traveller',
+        intro_text=intro_text,
+        links=links)
+
+
+@main.route('/ct/lbb2/cargogen')
+@main.route('/ct/lbb2/cargogen/index')
+def ct_lbb2_cargogen():
+    '''CT LBB2 cargogen index'''
+    intro_text = 'Classic Traveller LBB2 cargo utilities'
+    links = [
+        {'text': 'LBB2 purchase cargo', 'uri': '/ct/lbb2/cargogen/purchase'},
+        {'text': 'LBB2 sell cargo', 'uri': '/ct/lbb2/cargogen/sale'}
+    ]
+    return render_template(
+        'index.html',
+        title='Home',
+        header_text='egor045 Traveller Tools - Classic Traveller',
         intro_text=intro_text,
         links=links)
 
