@@ -12,6 +12,10 @@ from . import main
 LOGGER = logging.getLogger(__name__)
 LOGGER.setLevel(logging.ERROR)
 
+NAVBAR_ITEMS = [
+    {'label': 'T5', 'target': 'main.t5_index'}
+]
+
 
 class OrbitForm(FlaskForm):
     '''Orbit form'''
@@ -51,4 +55,5 @@ def t5_orbit():
     return render_template(
         't5_orbit.html',
         orbit=orbit,
-        form=form)
+        form=form,
+        navbar_items=NAVBAR_ITEMS)

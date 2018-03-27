@@ -12,6 +12,10 @@ from flask import render_template, current_app
 LOGGER = logging.getLogger(__name__)
 LOGGER.setLevel(logging.ERROR)
 
+NAVBAR_ITEMS = [
+    {'label': 'T5', 'target': 'main.t5_index'}
+]
+
 UWP_REGEXP = r'^[A-HYX][0-9A-HJ-NP-Z]{6}\-[0-9A-HJ-NP-Z]$'
 # UWPS_REGEXP = r'\b[A-HYX][0-9A-HJ-NP-Z]{6}\-[0-9A-HJ-NP-Z]\b'
 
@@ -60,4 +64,5 @@ def t5_cargogen():
     return render_template(
         't5_cargogen.html',
         cargo=cargo,
-        form=form)
+        form=form,
+        navbar_items=NAVBAR_ITEMS)

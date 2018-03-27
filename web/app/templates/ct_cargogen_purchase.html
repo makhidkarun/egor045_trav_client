@@ -2,29 +2,6 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% block title %}Classic Traveller Cargo Generator - Purchase{% endblock %}
 
-{% block navbar %}
-<div class="navbar navbar-inverse" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle"
-            data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle Navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">egor045 Traveller Tools</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="{{ url_for('main.index') }}">Home</a></li>
-                <li><a href="{{ url_for('main.ct_index') }}">Classic Traveller</a></li>
-                <li><a href="{{ url_for('main.ct_lbb2_cargogen') }}">Classic Traveller LBB2 cargogen</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
-{% endblock %}
-
 {% block content %}
 <div class="container">
     <div class="page-header">

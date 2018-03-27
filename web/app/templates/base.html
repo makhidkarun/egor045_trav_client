@@ -23,7 +23,10 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                # <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                {% for navbar_item in navbar_items %}
+                    <li><a href="{{ url_for(navbar_item.target) }}">{{ navbar_item.label }}</a></li>
+                {% endfor %}
             </ul>
         </div>
     </div>

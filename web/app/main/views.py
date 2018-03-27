@@ -31,12 +31,14 @@ def t5_index():
         {'text': 'T5 cargogen', 'uri': '/t5/cargogen'},
         {'text': 'T5 orbit details', 'uri': '/t5/orbit'}
     ]
+    navbar_items = []
     return render_template(
         'index.html',
         title='Home',
         header_text='egor045 Traveller Tools - T5',
         intro_text=intro_text,
-        links=links)
+        links=links,
+        navbar_items=navbar_items)
 
 
 @main.route('/ct/')
@@ -47,12 +49,14 @@ def ct_index():
     links = [
         {'text': 'LBB2 cargogen', 'uri': '/ct/lbb2/cargogen'}
     ]
+    navbar_items = []
     return render_template(
         'index.html',
         title='Home',
         header_text='egor045 Traveller Tools - Classic Traveller',
         intro_text=intro_text,
-        links=links)
+        links=links,
+        navbar_items=navbar_items)
 
 
 @main.route('/ct/lbb2/cargogen')
@@ -64,12 +68,16 @@ def ct_lbb2_cargogen():
         {'text': 'LBB2 purchase cargo', 'uri': '/ct/lbb2/cargogen/purchase'},
         {'text': 'LBB2 sell cargo', 'uri': '/ct/lbb2/cargogen/sale'}
     ]
+    navbar_items = [
+        {'label': 'Classic Traveller', 'target': 'main.ct_index'}
+    ]
     return render_template(
         'index.html',
         title='Home',
         header_text='egor045 Traveller Tools - Classic Traveller',
         intro_text=intro_text,
-        links=links)
+        links=links,
+        navbar_items=navbar_items)
 
 
 @main.route('/misc/')

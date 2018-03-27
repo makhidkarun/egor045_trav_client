@@ -14,6 +14,14 @@ from . import main
 
 UWP_REGEXP = r'^[A-HYX][0-9A-HJ-NP-Z]{6}\-[0-9A-HJ-NP-Z]$'
 
+NAVBAR_ITEMS = [
+    {'label': 'Classic Traveller', 'target': 'main.ct_index'},
+    {
+        'label': 'Classic Traveller LBB2 cargogen',
+        'target': 'main.ct_lbb2_cargogen'
+    }
+]
+
 
 class CTPurchaseInputForm(FlaskForm):
     '''Input form for CE cargogen'''
@@ -133,7 +141,8 @@ def ct_cargogen_purchase():
         'ct_cargogen_purchase.html',
         source=source,
         cargo=cargo,
-        form=form)
+        form=form,
+        navbar_items=NAVBAR_ITEMS)
 
 
 @main.route('/ct/lbb2/cargogen/sale', methods=['GET', 'POST'])
@@ -176,4 +185,5 @@ def ct_cargogen_sale():
         'ct_cargogen_sale.html',
         market=market,
         cargo=cargo,
-        form=form)
+        form=form,
+        navbar_items=NAVBAR_ITEMS)

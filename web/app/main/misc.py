@@ -11,6 +11,9 @@ from . import main
 LOGGER = logging.getLogger(__name__)
 LOGGER.setLevel(logging.ERROR)
 
+NAVBAR_ITEMS = [
+    {'label': 'Miscellaneous items', 'target': 'main.misc_index'}
+]
 
 class AngDiaForm(FlaskForm):
     '''Form for angular diameter'''
@@ -42,4 +45,8 @@ def angdia():
             LOGGER.debug(
                 'received status %d from API endpoint',
                 resp.status_code)
-    return render_template('angdia.html', data=data, form=form)
+    return render_template(
+        'angdia.html',
+        data=data,
+        form=form,
+        navbar_items=NAVBAR_ITEMS)
