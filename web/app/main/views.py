@@ -66,7 +66,11 @@ def ct_lbb2_cargogen():
     intro_text = 'Classic Traveller LBB2 cargo utilities'
     links = [
         {'text': 'LBB2 purchase cargo', 'uri': '/ct/lbb2/cargogen/purchase'},
-        {'text': 'LBB2 sell cargo', 'uri': '/ct/lbb2/cargogen/sale'}
+        {'text': 'LBB2 sell cargo', 'uri': '/ct/lbb2/cargogen/sale'},
+        {
+            'text': 'LBB2 purchase/sell cargo',
+            'uri': '/ct/lbb2/cargogen/purchase_sale'
+        }
     ]
     navbar_items = [
         {'label': 'Classic Traveller', 'target': 'main.ct_index'}

@@ -104,6 +104,34 @@ class CTSaleInputForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
+class CTPurchaseSaleInputForm(FlaskForm):
+    '''INput form for CT cargogen - purchase/sale'''
+    skill_levels = [
+        ('0', 'Skill level 0'),
+        ('1', 'Skill level 1'),
+        ('2', 'Skill level 2'),
+        ('3', 'Skill level 3'),
+        ('4', 'Skill level 4'),
+        ('5', 'Skill level 5')
+    ]
+    source_uwp = StringField(
+        'Source world UWP',
+        validators=[Regexp(UWP_REGEXP)])
+    market_uwp = StringField(
+        'Market world UWP',
+        validators=[Regexp(UWP_REGEXP)])
+    admin_skill = SelectField(
+        'Admin skill',
+        choices=skill_levels)
+    bribery_skill = SelectField(
+        'Bribery skill',
+        choices=skill_levels)
+    broker_skill = SelectField(
+        'Broker skill',
+        choices=skill_levels[:5])
+    submit = SubmitField('Submit')
+
+
 @main.route('/ct/lbb2/cargogen/purchase', methods=['GET', 'POST'])
 def ct_cargogen_purchase():
     '''Purchase cargo'''
@@ -183,6 +211,73 @@ def ct_cargogen_sale():
         current_app.logger.debug('cargo = %s', cargo)
     return render_template(
         'ct_cargogen_sale.html',
+        market=market,
+        cargo=cargo,
+        form=form,
+        navbar_items=NAVBAR_ITEMS)
+
+
+@main.route('/ct/lbb2/cargogen/purchase_sale', methods=['GET', 'POST'])
+def ct_cargogen_purchase_sale():
+    '''Purchase cargo, then sell cargo'''
+    cargo = None
+    source = None
+    market = None
+    source_trade_codes = []
+    base_api_url = '{}/ct/lbb2/cargogen'.format(
+        current_app.config['API_SERVER'])
+    form = CTPurchaseSaleInputForm()
+    if form.validate_on_submit():
+        # Get cargo details
+        source = form.source_uwp.data
+
+        market = form.market_uwp.data
+        request_url = '{}/purchase?source_uwp={}'.format(
+            base_api_url,
+            form.source_uwp.data)
+        current_app.logger.debug('Calling API endpoint %s', request_url)
+        resp = requests.get(request_url)
+        if resp.status_code == 200:
+            cargo = resp.json()
+            source_trade_codes = cargo['trade_codes']
+            current_app.logger.debug('befor cargo: %s', cargo)
+            for modifier in cargo['purchase_dms']:
+                cargo['purchase_dms'][modifier] = \
+                    '{:+d}'.format(cargo['purchase_dms'][modifier])
+            for modifier in cargo['resale_dms']:
+                cargo['resale_dms'][modifier] = \
+                    '{:+d}'.format(cargo['resale_dms'][modifier])
+            current_app.logger.debug('after cargo: %s', cargo)
+
+            # Get cargo sale details
+            request_url = '{}/sale?market_uwp={}&cargo={}'.format(
+                base_api_url,
+                form.market_uwp.data,
+                cargo['id'])
+            request_url += '&admin={}&bribery={}&broker={}&quantity={}'.format(
+                form.admin_skill.data,
+                form.bribery_skill.data,
+                form.broker_skill.data,
+                cargo['quantity'])
+            current_app.logger.debug('Calling API endpoint %s', request_url)
+            resp = requests.get(request_url)
+            if resp.status_code == 200:
+                cargo = resp.json()
+            else:
+                current_app.logger.debug(
+                    'received status %d from API endpoint',
+                    resp.status_code)
+        else:
+            current_app.logger.debug(
+                'received status %d from API endpoint',
+                resp.status_code)
+
+        current_app.logger.debug('cargo = %s', cargo)
+
+    return render_template(
+        'ct_cargogen_purchase_sale.html',
+        source=source,
+        source_tc=source_trade_codes,
         market=market,
         cargo=cargo,
         form=form,

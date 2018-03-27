@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Classic Traveller Cargo Generator - Sale{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>Classic Traveller LBB2 Cargo Generator</h1>
+    </div>
+    <div class="body">
+        {{ wtf.quick_form(form) }}
+        {% if source %}
+            <h3>Source world details</h3>
+            <table cellpadding="10">
+                <tr>
+                    <td width="60%">UWP</td><td valign="top">{{ source }}</td>
+                </tr>
+                <tr>
+                    <td>Trade codes</td><td valign="top">{{ ' '.join(source_tc) }}</td>
+               </tr>
+            </table>
+            <h3>Market world details</h3>
+            <table cellpadding="10">
+                <tr>
+                    <td width="60%">UWP</td><td valign="top">{{ market }}</td>
+                </tr>
+                <tr>
+                    <td>Trade codes</td><td valign="top">{{ ' '.join(cargo.trade_codes) }}</td>
+               </tr>
+            </table>
+            <h3>Cargo details</h3>
+            <table cellpadding="10">
+                <tr>
+                    <td valign="top" width="50%">Cargo</td>
+                    <td valign="top">{{ cargo.name }} (table ID {{cargo.id}})</td>
+                </tr>
+                <tr>
+                    <td valign="top">Quantity</td>
+                    <td valign="top">{{ cargo.quantity }} {{ cargo.units }}</td>
+                </tr>
+                <tr>
+                    <td valign="top">Base price</td>
+                    <td valign="top">Cr{{ cargo.base_price }} (unit)</td>
+                </tr>
+                <tr>
+                    <td valign="top">Actual gross price</td>
+                    <td valign="top">
+                        Cr{{ cargo.actual_gross_unit_price }} (unit)<br>
+                        Cr{{ cargo.actual_gross_lot_price }} (lot)
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Actual net price</td>
+                    <td valign="top">
+                        Cr{{ cargo.actual_net_unit_price }} (unit)<br>
+                        Cr{{ cargo.actual_net_lot_price }} (lot)
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Commission</td>
+                    <td valign="top">
+                        Cr{{ cargo.commission }} (lot)
+                    </td>
+                </tr>
+            </table>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
