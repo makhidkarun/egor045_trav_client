@@ -88,6 +88,7 @@ def ct_lbb2_cargogen():
 def misc_index():
     '''Misc utilities'''
     intro_text = 'Miscellaneous utilities'
+    navbar_items = []
     links = [
         {'text': 'Angular diameter', 'uri': '/misc/angdia'}
     ]
@@ -95,4 +96,6 @@ def misc_index():
         'index.html',
         title='Home',
         intro_text=intro_text,
-        links=links)
+        header_text='egor045 Traveller Tools - Miscellaneous',
+        links=links,
+        navbar_items=navbar_items)
