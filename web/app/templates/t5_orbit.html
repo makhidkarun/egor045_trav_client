@@ -9,6 +9,10 @@
     </div>
     <div class="body">
         {{ wtf.quick_form(form) }}
+        {% if error_msg %}
+            <h3>Error</h3>
+            {{ error_msg }}
+        {% endif %}
         {% if orbit.orbit_number %}
             <h3>Orbit details</h3>
             <table width="75%" cellpadding="10">

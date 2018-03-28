@@ -9,9 +9,6 @@ from wtforms.validators import Regexp, Optional
 from . import main
 from flask import render_template, current_app
 
-LOGGER = logging.getLogger(__name__)
-LOGGER.setLevel(logging.ERROR)
-
 NAVBAR_ITEMS = [
     {'label': 'T5', 'target': 'main.t5_index'}
 ]
@@ -35,34 +32,46 @@ class SourceWorldForm(FlaskForm):
 def t5_cargogen():
     '''Generate cargo'''
     cargo = {}
+    error_msg = None
     base_api_url = '{}/t5/cargogen'.format(
         current_app.config['API_SERVER'])
     form = SourceWorldForm()
     # source_world_uwp = ''
     # source_world_tcs = ''
     if form.validate_on_submit():
-        LOGGER.debug('form.source_uwp.data = %s', form.source_uwp.data)
-        LOGGER.debug('form.market_uwp.data = %s', form.market_uwp.data)
+        current_app.logger.debug(
+            'form.source_uwp.data = %s', form.source_uwp.data)
+        current_app.logger.debug(
+            'form.market_uwp.data = %s', form.market_uwp.data)
         # form.uwp.data is unicode, convert
-        if form.source_uwp.data:
-            request_url = '{}/source/{}'.format(
-                base_api_url,
-                form.source_uwp.data)
-            if form.market_uwp.data:
-                request_url = '{}/market/{}'.format(
-                    request_url,
-                    form.market_uwp.data)
-            LOGGER.debug('Calling API endpoint %s', request_url)
-            resp = requests.get(request_url)
-            if resp.status_code == 200:
-                cargo = resp.json()
-            else:
-                LOGGER.debug(
-                    'received status %d from API endpoint',
-                    resp.status_code)
-        LOGGER.debug('cargo = %s', cargo)
+
+        try:
+            if form.source_uwp.data:
+                request_url = '{}/source/{}'.format(
+                    base_api_url,
+                    form.source_uwp.data)
+                if form.market_uwp.data:
+                    request_url = '{}/market/{}'.format(
+                        request_url,
+                        form.market_uwp.data)
+                current_app.logger.debug(
+                    'Calling API endpoint %s', request_url)
+                resp = requests.get(request_url)
+                if resp.status_code == 200:
+                    cargo = resp.json()
+                else:
+                    error_msg = 'Received status {} from API endpoint'.format(
+                        resp.status_code)
+                    current_app.logger.debug(error_msg)
+        except requests.ConnectionError:
+            current_app.logger.debug('Unable to connect to API endpoint')
+            error_msg = 'Unable to connect to API server'
+
+        current_app.logger.debug('cargo = %s', cargo)
+
     return render_template(
         't5_cargogen.html',
         cargo=cargo,
         form=form,
+        error_msg=error_msg,
         navbar_items=NAVBAR_ITEMS)

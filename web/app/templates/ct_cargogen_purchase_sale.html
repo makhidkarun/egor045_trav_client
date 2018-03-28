@@ -9,7 +9,11 @@
     </div>
     <div class="body">
         {{ wtf.quick_form(form) }}
-        {% if source %}
+        {% if error_msg %}
+            <h3>Error</h3>
+            {{ error_msg }}
+        {% endif %}
+        {% if cargo %}
             <h3>Source world details</h3>
             <table cellpadding="10">
                 <tr>

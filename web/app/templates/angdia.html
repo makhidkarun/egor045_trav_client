@@ -31,6 +31,10 @@
     </div>
     <div class="body">
         {{ wtf.quick_form(form) }}
+        {% if error_msg %}
+            <h3>Error</h3>
+            {{ error_msg }}
+        {% endif %}
         {% if data.diameter %}
             <h3>Angular diameter</h3>
             <table width="50%" cellpadding="10">
@@ -46,6 +50,7 @@
                         {{ data.ang_dia_rad }} (radians)
                     </td>
             </table>
+            For reference, the sun as seen from Earth has an angular diameter of 0.532 degrees or 0.009 radians
         {% endif %}
         {% if doc %}
             <hr>

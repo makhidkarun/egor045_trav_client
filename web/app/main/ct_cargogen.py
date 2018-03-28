@@ -137,39 +137,49 @@ def ct_cargogen_purchase():
     '''Purchase cargo'''
     cargo = {}
     source = None
+    error_msg = None
     base_api_url = '{}/ct/lbb2/cargogen/purchase'.format(
         current_app.config['API_SERVER'])
     form = CTPurchaseInputForm()
     if form.validate_on_submit():
         current_app.logger.debug(
             'form.source_uwp.data = %s', form.source_uwp.data)
-        if form.source_uwp.data:
-            source = form.source_uwp.data
-            request_url = '{}?source_uwp={}'.format(
-                base_api_url,
-                form.source_uwp.data)
-            current_app.logger.debug('Calling API endpoint %s', request_url)
-            resp = requests.get(request_url)
-            if resp.status_code == 200:
-                cargo = resp.json()
-                current_app.logger.debug('befor cargo: %s', cargo)
-                for modifier in cargo['purchase_dms']:
-                    cargo['purchase_dms'][modifier] = \
-                        '{:+d}'.format(cargo['purchase_dms'][modifier])
-                for modifier in cargo['resale_dms']:
-                    cargo['resale_dms'][modifier] = \
-                        '{:+d}'.format(cargo['resale_dms'][modifier])
-                current_app.logger.debug('after cargo: %s', cargo)
-            else:
+
+        try:
+            if form.source_uwp.data:
+                source = form.source_uwp.data
+                request_url = '{}?source_uwp={}'.format(
+                    base_api_url,
+                    form.source_uwp.data)
                 current_app.logger.debug(
-                    'received status %d from API endpoint',
-                    resp.status_code)
+                    'Calling API endpoint %s', request_url)
+                resp = requests.get(request_url)
+                if resp.status_code == 200:
+                    cargo = resp.json()
+                    current_app.logger.debug('befor cargo: %s', cargo)
+                    for modifier in cargo['purchase_dms']:
+                        cargo['purchase_dms'][modifier] = \
+                            '{:+d}'.format(cargo['purchase_dms'][modifier])
+                    for modifier in cargo['resale_dms']:
+                        cargo['resale_dms'][modifier] = \
+                            '{:+d}'.format(cargo['resale_dms'][modifier])
+                    current_app.logger.debug('after cargo: %s', cargo)
+                else:
+                    error_msg = 'Received status {} from API endpoint'.format(
+                        resp.status_code)
+                    current_app.logger.debug(error_msg)
+        except requests.ConnectionError:
+            current_app.logger.debug('Unable to connect to API endpoint')
+            error_msg = 'Unable to connect to API server'
+
         current_app.logger.debug('cargo = %s', cargo)
+
     return render_template(
         'ct_cargogen_purchase.html',
         source=source,
         cargo=cargo,
         form=form,
+        error_msg=error_msg,
         navbar_items=NAVBAR_ITEMS)
 
 
@@ -185,35 +195,44 @@ def ct_cargogen_sale():
     '''
     cargo = None
     market = None
+    error_msg = None
     base_api_url = '{}/ct/lbb2/cargogen/sale'.format(
         current_app.config['API_SERVER'])
     form = CTSaleInputForm()
     if form.validate_on_submit():
         if form.cargo_type.data:
-            request_url = '{}?market_uwp={}&cargo={}'.format(
-                base_api_url,
-                form.market_uwp.data,
-                form.cargo_type.data,)
-            request_url += '&admin={}&bribery={}&broker={}&quantity={}'.format(
-                form.admin_skill.data,
-                form.bribery_skill.data,
-                form.broker_skill.data,
-                form.quantity.data)
-            current_app.logger.debug('Calling API endpoint %s', request_url)
-            resp = requests.get(request_url)
-            if resp.status_code == 200:
-                cargo = resp.json()
-                market = form.market_uwp.data
-            else:
+            try:
+                request_url = '{}?market_uwp={}&cargo={}'.format(
+                    base_api_url,
+                    form.market_uwp.data,
+                    form.cargo_type.data,)
+                request_url += '&admin={}&bribery={}'.format(
+                    form.admin_skill.data,
+                    form.bribery_skill.data)
+                request_url += '&broker={}&quantity={}'.format(
+                    form.broker_skill.data,
+                    form.quantity.data)
                 current_app.logger.debug(
-                    'received status %d from API endpoint',
-                    resp.status_code)
+                    'Calling API endpoint %s', request_url)
+                resp = requests.get(request_url)
+                if resp.status_code == 200:
+                    cargo = resp.json()
+                    market = form.market_uwp.data
+                else:
+                    error_msg = 'Received status {} from API endpoint'.format(
+                        resp.status_code)
+                    current_app.logger.debug(error_msg)
+            except requests.ConnectionError:
+                current_app.logger.debug('Unable to connect to API endpoint')
+                error_msg = 'Unable to connect to API server'
         current_app.logger.debug('cargo = %s', cargo)
+
     return render_template(
         'ct_cargogen_sale.html',
         market=market,
         cargo=cargo,
         form=form,
+        error_msg=error_msg,
         navbar_items=NAVBAR_ITEMS)
 
 
@@ -223,6 +242,7 @@ def ct_cargogen_purchase_sale():
     cargo = None
     source = None
     market = None
+    error_msg = None
     source_trade_codes = []
     base_api_url = '{}/ct/lbb2/cargogen'.format(
         current_app.config['API_SERVER'])
@@ -236,41 +256,48 @@ def ct_cargogen_purchase_sale():
             base_api_url,
             form.source_uwp.data)
         current_app.logger.debug('Calling API endpoint %s', request_url)
-        resp = requests.get(request_url)
-        if resp.status_code == 200:
-            cargo = resp.json()
-            source_trade_codes = cargo['trade_codes']
-            current_app.logger.debug('befor cargo: %s', cargo)
-            for modifier in cargo['purchase_dms']:
-                cargo['purchase_dms'][modifier] = \
-                    '{:+d}'.format(cargo['purchase_dms'][modifier])
-            for modifier in cargo['resale_dms']:
-                cargo['resale_dms'][modifier] = \
-                    '{:+d}'.format(cargo['resale_dms'][modifier])
-            current_app.logger.debug('after cargo: %s', cargo)
 
-            # Get cargo sale details
-            request_url = '{}/sale?market_uwp={}&cargo={}'.format(
-                base_api_url,
-                form.market_uwp.data,
-                cargo['id'])
-            request_url += '&admin={}&bribery={}&broker={}&quantity={}'.format(
-                form.admin_skill.data,
-                form.bribery_skill.data,
-                form.broker_skill.data,
-                cargo['quantity'])
-            current_app.logger.debug('Calling API endpoint %s', request_url)
+        try:
             resp = requests.get(request_url)
             if resp.status_code == 200:
                 cargo = resp.json()
-            else:
+                source_trade_codes = cargo['trade_codes']
+                current_app.logger.debug('befor cargo: %s', cargo)
+                for modifier in cargo['purchase_dms']:
+                    cargo['purchase_dms'][modifier] = \
+                        '{:+d}'.format(cargo['purchase_dms'][modifier])
+                for modifier in cargo['resale_dms']:
+                    cargo['resale_dms'][modifier] = \
+                        '{:+d}'.format(cargo['resale_dms'][modifier])
+                current_app.logger.debug('after cargo: %s', cargo)
+
+                # Get cargo sale details
+                request_url = '{}/sale?market_uwp={}&cargo={}'.format(
+                    base_api_url,
+                    form.market_uwp.data,
+                    cargo['id'])
+                request_url += '&admin={}&bribery={}'.format(
+                    form.admin_skill.data,
+                    form.bribery_skill.data)
+                request_url += '&broker={}&quantity={}'.format(
+                    form.broker_skill.data,
+                    cargo['quantity'])
                 current_app.logger.debug(
-                    'received status %d from API endpoint',
+                    'Calling API endpoint %s', request_url)
+                resp = requests.get(request_url)
+                if resp.status_code == 200:
+                    cargo = resp.json()
+                else:
+                    error_msg = 'Received status {} from API endpoint'.format(
+                        resp.status_code)
+                    current_app.logger.debug(error_msg)
+            else:
+                error_msg = 'Received status {} from API endpoint'.format(
                     resp.status_code)
-        else:
-            current_app.logger.debug(
-                'received status %d from API endpoint',
-                resp.status_code)
+                current_app.logger.debug(error_msg)
+        except requests.ConnectionError:
+            current_app.logger.debug('Unable to connect to API endpoint')
+            error_msg = 'Unable to connect to API server'
 
         current_app.logger.debug('cargo = %s', cargo)
 
@@ -281,4 +308,5 @@ def ct_cargogen_purchase_sale():
         market=market,
         cargo=cargo,
         form=form,
+        error_msg=error_msg,
         navbar_items=NAVBAR_ITEMS)
