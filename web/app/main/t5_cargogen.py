@@ -47,11 +47,11 @@ def t5_cargogen():
 
         try:
             if form.source_uwp.data:
-                request_url = '{}/source/{}'.format(
+                request_url = '{}?source_uwp={}'.format(
                     base_api_url,
                     form.source_uwp.data)
                 if form.market_uwp.data:
-                    request_url = '{}/market/{}'.format(
+                    request_url = '{}&market_uwp={}'.format(
                         request_url,
                         form.market_uwp.data)
                 current_app.logger.debug(

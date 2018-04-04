@@ -33,7 +33,7 @@ def t5_orbit():
     if form.validate_on_submit():
         current_app.logger.debug('Orbit number = %s', form.orbit_number.data)
         if form.orbit_number.data:
-            request_url = '{}/{}'.format(
+            request_url = '{}?orbit_number={}'.format(
                 base_api_url,
                 form.orbit_number.data)
             current_app.logger.debug('Calling API endpoint %s', request_url)
