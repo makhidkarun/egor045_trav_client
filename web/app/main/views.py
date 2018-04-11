@@ -28,8 +28,16 @@ def t5_index():
     '''T5 index'''
     intro_text = 'T5 utilities'
     links = [
-        {'text': 'T5 cargogen', 'uri': '/t5/cargogen'},
-        {'text': 'T5 orbit details', 'uri': '/t5/orbit'}
+        {
+            'text': 'T5 cargogen',
+            'uri': '/t5/cargogen',
+            'api': '/api_doc?endpoint=/t5/cargogen'
+        },
+        {
+            'text': 'T5 orbit details',
+            'uri': '/t5/orbit',
+            'api': '/api_doc?endpoint=/t5/orbit'
+        }
     ]
     navbar_items = []
     return render_template(
@@ -65,8 +73,16 @@ def ct_lbb2_cargogen():
     '''CT LBB2 cargogen index'''
     intro_text = 'Classic Traveller LBB2 cargo utilities'
     links = [
-        {'text': 'LBB2 purchase cargo', 'uri': '/ct/lbb2/cargogen/purchase'},
-        {'text': 'LBB2 sell cargo', 'uri': '/ct/lbb2/cargogen/sale'},
+        {
+            'text': 'LBB2 purchase cargo',
+            'uri': '/ct/lbb2/cargogen/purchase',
+            'api': '/api_doc?endpoint=/ct/lbb2/cargogen/purchase'
+        },
+        {
+            'text': 'LBB2 sell cargo',
+            'uri': '/ct/lbb2/cargogen/sale',
+            'api': '/api_doc?endpoint=/ct/lbb2/cargogen/sale'
+        },
         {
             'text': 'LBB2 purchase/sell cargo',
             'uri': '/ct/lbb2/cargogen/purchase_sale'
@@ -90,7 +106,10 @@ def misc_index():
     intro_text = 'Miscellaneous utilities'
     navbar_items = []
     links = [
-        {'text': 'Angular diameter', 'uri': '/misc/angdia'}
+        {
+            'text': 'Angular diameter',
+            'uri': '/misc/angdia',
+            'api': '/api_doc?endpoint=/misc/angdia'}
     ]
     return render_template(
         'index.html',
