@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}egor045 Traveller Tools API Documentation{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>egor045 Traveller Tools API Documentation</h1>
+    </div>
+    <div class="body">
+        {% if error_msg %}
+            <h3>Error</h3>
+            {{ error_msg }}
+        {% endif %}
+        {% if data %}
+            <h3>{{ label }}</h3>
+            <pre><code>
+               {{ data.doc }}
+            </code></pre>
+        {% else %}
+            <h3>{{ label }}</h3>
+            <p>Documentation not found</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
