@@ -109,7 +109,12 @@ def misc_index():
         {
             'text': 'Angular diameter',
             'uri': '/misc/angdia',
-            'api': '/api_doc?endpoint=/misc/angdia'}
+            'api': '/api_doc?endpoint=/misc/angdia'},
+        {
+            'text': 'Star colour',
+            'uri': '/misc/starcolour',
+            'api': '/api_doc?endpoint=/misc/starcolour'
+        }
     ]
     return render_template(
         'index.html',

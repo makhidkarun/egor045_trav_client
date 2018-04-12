@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Star Colour{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>Star Colour</h1>
+    </div>
+    <div class="body">
+        {{ wtf.quick_form(form) }}
+        {% if error_msg %}
+            <h3>Error</h3>
+            {{ error_msg }}
+        {% endif %}
+        {% if data.code %}
+            <h3>Star Colour</h3>
+            <table>
+                <tr>
+                    <th>Code</th>
+                    <td>{{ data.code }}</td>
+                </tr>
+                <tr>
+                    <th valign="top">RGB values</th>
+                    <td>
+                        Red: {{ data.rgb.red }}<br>
+                        Green: {{ data.rgb.green }}<br>
+                        Blue: {{ data.rgb.blue }}
+                    </td>
+                </tr>
+            </table>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
