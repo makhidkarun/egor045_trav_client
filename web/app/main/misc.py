@@ -11,7 +11,7 @@ NAVBAR_ITEMS = [
     {'label': 'Miscellaneous items', 'target': 'main.misc_index'}
 ]
 
-STAR_REGEXP = r'^[OBAFGKM]([0-9] ?(Ia|Ib|II|III|IV|V|VI)|D)$'
+STAR_REGEXP = r'^([OBAFGKM]([0-9] ?(Ia|Ib|II|III|IV|V|VI)|D)|D[OBAFGKM])$'
 
 class AngDiaForm(FlaskForm):
     '''Form for angular diameter'''
