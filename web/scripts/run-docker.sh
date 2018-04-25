@@ -33,4 +33,9 @@ fi
 
 set -- "${POSITIONAL[@]}"
 echo Running docker image $IMAGE with env=$ENV, port=$PORTS
-/usr/bin/docker run --rm -p $PORTS -e $ENV $IMAGE
+
+if [ "$ENV" != "" ] ; then
+    /usr/bin/docker run --rm -p $PORTS -e $ENV $IMAGE
+else
+    /usr/bin/docker run --rm -p $PORTS $IMAGE
+fi
