@@ -15,53 +15,87 @@
         {% endif %}
         {% if data.star %}
             <h3>Star</h3>
+            <table>
+                <tr>
+                    <td>Classification</td><td>{{ data.star.classification }}</td>
+                </tr>
+                <tr>
+                    <td>Magnitude</td><td>>{{ data.star.magnitude }}</td>
+                </tr>
+                <tr>
+                    <td>Luminosity (x sun)</td><td>{{ data.star.luminosity }}</td>
+                </tr>
+                <tr>
+                    <td>Mass (x sun)</td><td>{{ data.star.mass }}</td>
+                </tr>
+                <tr>
+                    <td>Radius (x sun)</td><td>{{ data.star.radius }}</td>
+                </tr>
+                <tr>
+                    <td>Temperature</td><td>{{ data.star.temperature }}K</td>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td>Minimum orbit</td>{{ data.star.min_orbit }}</td>
+                </tr>
+                <tr>
+                    <td>Interior orbit</td><td>{{ data.star.int_orbit }}</td>
+                </tr>
+                <tr>
+                    <td>Habitable zone orbit</td><td>{{ data.star.hz_orbit }}</td>
+                </tr>
+                <tr>
+                    <td> Habitable zone orbit period</td>
+                    <td>{{ data.star.hz_period }}</td>
+                </tr>
+            </table>
         {% endif %}
         {% if data.orbit %}
             <h3>Orbit</h3>
         {% endif %}
         {% if data.planet %}
-          <h3>Planet</h3>
-        <table cellpadding="10">
-            <tr>
-                <td>Name</td><td>{{ data.planet.name }}</td>
-            </tr>
-            <tr>
-                <td>UWP</td><td>{{ data.planet.uwp }}</td>
-            </tr>
-            <tr>
-                <td>Trade classifications</td>
-                <td>{{ ' '.join(data.planet.trade_codes) }}</td>
-            </tr>
-            <tr>
-                <td>Star</td>
-                <td>{{ data.planet.star }}</td>
-            </tr>
-            <tr>
-                <td>Orbit</td><td>{{ data.planet.orbit }}</td>
-            </tr>
-            <tr>
-                <td>Cloudiness</td>
-                <td>{{ data.planet.temperature_factors.cloudiness * 100 }}%</td>
-            </tr>
-            <tr>
-                <td>Greenhouse factor</td>
-                <td>{{ data.planet.temperature_factors.greenhouse.min }} - 
-                    {{ data.planet.temperature_factors.greenhouse.max }}
-                </td>
-            </tr>
-            <tr>
-                <td>Albedo</td>
-                <td>{{ data.planet.temperature_factors.albedo.min}} - 
-                    {{ data.planet.temperature_factors.albedo.max}}
-                </td>
-            </tr>
-            <tr>
-                <td>Temperature</td>
-                <td>{{ data.planet.temperature.min }} - 
-                    {{ data.planet.temperature.max }}
-                </td>
-            </tr>
-        </table>
+            <h3>Planet</h3>
+            <table cellpadding="10">
+                <tr>
+                    <td>Name</td><td>{{ data.planet.name }}</td>
+                </tr>
+                <tr>
+                    <td>UWP</td><td>{{ data.planet.uwp }}</td>
+                </tr>
+                <tr>
+                    <td>Trade classifications</td>
+                    <td>{{ ' '.join(data.planet.trade_codes) }}</td>
+                </tr>
+                <tr>
+                    <td>Star</td>
+                    <td>{{ data.planet.star }}</td>
+                </tr>
+                <tr>
+                    <td>Orbit</td><td>{{ data.planet.orbit }}</td>
+                </tr>
+                <tr>
+                    <td>Cloudiness</td>
+                    <td>{{ data.planet.temperature_factors.cloudiness * 100 }}%</td>
+                </tr>
+                <tr>
+                    <td>Greenhouse factor</td>
+                    <td>{{ data.planet.temperature_factors.greenhouse.min }} - 
+                        {{ data.planet.temperature_factors.greenhouse.max }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Albedo</td>
+                    <td>{{ data.planet.temperature_factors.albedo.min}} - 
+                        {{ data.planet.temperature_factors.albedo.max}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Temperature</td>
+                    <td>{{ data.planet.temperature.min }} - 
+                        {{ data.planet.temperature.max }}
+                    </td>
+                </tr>
+            </table>
         {% endif %}
     </div>
 </div>

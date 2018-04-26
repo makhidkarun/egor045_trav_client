@@ -128,9 +128,14 @@ def ct_lbb6_index():
     intro_text = 'CT LBB6 tools'
     links = [
         {
-            'text': 'LBB6 planet/star/orbit details',
+            'text': 'LBB6 planet details',
             'uri': '/ct/lbb6/planet',
             'api': '/api_doc?endpoint=/ct/lbb6/planet'
+        },
+        {
+            'text': 'LBB6 star details',
+            'uri': '/ct/bb6/star',
+            'api': '/api_doc?endpoint=/ct/lbb6/star'
         }
     ]
     navbar_items = [
