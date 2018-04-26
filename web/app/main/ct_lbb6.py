@@ -114,7 +114,7 @@ def ct_lbb6_star():
     base_api_url = '{}/ct/lbb6/star'.format(
         current_app.config['API_SERVER'])
 
-    form = CTLBB6PlanetInputForm()
+    form = CTLBB6StarInputForm()
     if form.validate_on_submit():
         current_app.logger.debug('form.star.data = %s', form.star.data)
 
@@ -150,7 +150,7 @@ def ct_lbb6_star():
             except requests.ConnectionError:
                 current_app.logger.debug('Unable to connect to API endpoint')
                 error_msg = 'Unable to connect to API server'
-        current_app.logger.debug('data = %s', data['planet'])
+        current_app.logger.debug('data = %s', data['star'])
 
     return render_template(
         'ct_lbb6.html',

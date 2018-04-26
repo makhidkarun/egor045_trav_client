@@ -134,7 +134,7 @@ def ct_lbb6_index():
         },
         {
             'text': 'LBB6 star details',
-            'uri': '/ct/bb6/star',
+            'uri': '/ct/lbb6/star',
             'api': '/api_doc?endpoint=/ct/lbb6/star'
         }
     ]

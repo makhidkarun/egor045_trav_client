@@ -15,12 +15,12 @@
         {% endif %}
         {% if data.star %}
             <h3>Star</h3>
-            <table>
+            <table cell-padding="10">
                 <tr>
                     <td>Classification</td><td>{{ data.star.classification }}</td>
                 </tr>
                 <tr>
-                    <td>Magnitude</td><td>>{{ data.star.magnitude }}</td>
+                    <td>Magnitude</td><td>{{ data.star.magnitude }}</td>
                 </tr>
                 <tr>
                     <td>Luminosity (x sun)</td><td>{{ data.star.luminosity }}</td>
@@ -32,11 +32,11 @@
                     <td>Radius (x sun)</td><td>{{ data.star.radius }}</td>
                 </tr>
                 <tr>
-                    <td>Temperature</td><td>{{ data.star.temperature }}K</td>
+                    <td>Temperature</td><td>{{ data.star.temperature }} K</td>
                 </tr>
                 <tr></tr>
                 <tr>
-                    <td>Minimum orbit</td>{{ data.star.min_orbit }}</td>
+                    <td>Minimum orbit</td><td>{{ data.star.min_orbit }}</td>
                 </tr>
                 <tr>
                     <td>Interior orbit</td><td>{{ data.star.int_orbit }}</td>
@@ -46,7 +46,7 @@
                 </tr>
                 <tr>
                     <td> Habitable zone orbit period</td>
-                    <td>{{ data.star.hz_period }}</td>
+                    <td>{{ data.star.hz_period }} solar years</td>
                 </tr>
             </table>
         {% endif %}
