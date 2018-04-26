@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}CT LBB6 utilities{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>CT LBB6 utilities</h1>
+    </div>
+    <div class="body">
+        {{ wtf.quick_form(form) }}
+        {% if error_msg %}
+            <h3>Error</h3>
+            {{ error_msg }}
+        {% endif %}
+        {% if data.star %}
+            <h3>Star</h3>
+        {% endif %}
+        {% if data.orbit %}
+            <h3>Orbit</h3>
+        {% endif %}
+        {% if data.planet %}
+          <h3>Planet</h3>
+        <table cellpadding="10">
+            <tr>
+                <td>Name</td><td>{{ data.planet.name }}</td>
+            </tr>
+            <tr>
+                <td>UWP</td><td>{{ data.planet.uwp }}</td>
+            </tr>
+            <tr>
+                <td>Trade classifications</td>
+                <td>{{ ' '.join(data.planet.trade_codes) }}</td>
+            </tr>
+            <tr>
+                <td>Star</td>
+                <td>{{ data.planet.star }}</td>
+            </tr>
+            <tr>
+                <td>Orbit</td><td>{{ data.planet.orbit }}</td>
+            </tr>
+            <tr>
+                <td>Cloudiness</td>
+                <td>{{ data.planet.temperature_factors.cloudiness * 100 }}%</td>
+            </tr>
+            <tr>
+                <td>Greenhouse factor</td>
+                <td>{{ data.planet.temperature_factors.greenhouse.min }} - 
+                    {{ data.planet.temperature_factors.greenhouse.max }}
+                </td>
+            </tr>
+            <tr>
+                <td>Albedo</td>
+                <td>{{ data.planet.temperature_factors.albedo.min}} - 
+                    {{ data.planet.temperature_factors.albedo.max}}
+                </td>
+            </tr>
+            <tr>
+                <td>Temperature</td>
+                <td>{{ data.planet.temperature.min }} - 
+                    {{ data.planet.temperature.max }}
+                </td>
+            </tr>
+        </table>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

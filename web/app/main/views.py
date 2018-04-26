@@ -55,7 +55,8 @@ def ct_index():
     '''CT index'''
     intro_text = 'Classic Traveller utilities'
     links = [
-        {'text': 'LBB2 cargogen', 'uri': '/ct/lbb2/cargogen'}
+        {'text': 'LBB2 cargogen', 'uri': '/ct/lbb2/cargogen'},
+        {'text': 'LBB6 utilities', 'uri': '/ct/lbb6'}
     ]
     navbar_items = []
     return render_template(
@@ -116,5 +117,29 @@ def misc_index():
         title='Home',
         intro_text=intro_text,
         header_text='egor045 Traveller Tools - Miscellaneous',
+        links=links,
+        navbar_items=navbar_items)
+
+
+@main.route('/ct/lbb6')
+@main.route('/ct/lbb6/index')
+def ct_lbb6_index():
+    '''CT LBB6 index'''
+    intro_text = 'CT LBB6 tools'
+    links = [
+        {
+            'text': 'LBB6 planet/star/orbit details',
+            'uri': '/ct/lbb6/planet',
+            'api': '/api_doc?endpoint=/ct/lbb6/planet'
+        }
+    ]
+    navbar_items = [
+        {'label': 'Classic Traveller', 'target': 'main.ct_index'}
+    ]
+    return render_template(
+        'index.html',
+        title='Home',
+        intro_text=intro_text,
+        header_text='egor045 Traveller Tools - CT LBB6',
         links=links,
         navbar_items=navbar_items)
