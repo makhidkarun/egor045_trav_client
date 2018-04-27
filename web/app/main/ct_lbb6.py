@@ -41,6 +41,20 @@ class CTLBB6StarInputForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
+class CTLBB6OrbitInputForm(FlaskForm):
+    '''Input form for CT LBB6 orbit'''
+    orbit = IntegerField(
+        'Orbit',
+        validators=[Required(), NumberRange(0, 19)]
+    )
+    star = StringField(
+        'Star',
+        validators=[Optional(), Regexp(STAR_REGEXP)]
+    )
+    submit = SubmitField('Submit')
+
+
+
 @main.route('/ct/lbb6/planet', methods=['GET', 'POST'])
 def ct_lbb6_planet():
     '''Handle planet query'''
@@ -151,6 +165,62 @@ def ct_lbb6_star():
                 current_app.logger.debug('Unable to connect to API endpoint')
                 error_msg = 'Unable to connect to API server'
         current_app.logger.debug('data = %s', data['star'])
+
+    return render_template(
+        'ct_lbb6.html',
+        form=form,
+        data=data,
+        error_msg=error_msg,
+        navbar_items=NAVBAR_ITEMS
+    )
+
+@main.route('/ct/lbb6/orbit', methods=['GET', 'POST'])
+def ct_lbb6_orbit():
+    '''Handle orbit query'''
+    data = {}
+    error_msg = None
+
+    base_api_url = '{}/ct/lbb6/orbit'.format(
+        current_app.config['API_SERVER'])
+
+    form = CTLBB6OrbitInputForm()
+    if form.validate_on_submit():
+        current_app.logger.debug('form.star.data = %s', form.orbit.data)
+        current_app.logger.debug('form.star.data = %s', form.star.data)
+
+        request_uri_elements = []
+        if form.orbit.data is not None:
+            request_uri_elements.append('orbit_no={}'.format(form.orbit.data))
+        if form.star.data != '':
+            request_uri_elements.append('star={}'.format(form.star.data))
+        if request_uri_elements != []:
+            request_uri = '?' + '&'.join(request_uri_elements)
+        else:
+            request_uri = ''
+        current_app.logger.debug('request_uri = %s', request_uri)
+
+        if request_uri != '':
+            try:
+                current_app.logger.debug(
+                    'Calling API endpoint %s%s',
+                    base_api_url, request_uri
+                )
+                resp = requests.get(
+                    base_api_url + request_uri
+                )
+                if resp.status_code == 200:
+                    current_app.logger.debug(
+                        'API server returned %s', resp.json()
+                    )
+                    data['orbit'] = resp.json()
+                else:
+                    error_msg = 'Received status {} from API endpoint, message is {}'.format(
+                        resp.status_code, resp.json['description'])
+                    current_app.logger.debug(error_msg)
+            except requests.ConnectionError:
+                current_app.logger.debug('Unable to connect to API endpoint')
+                error_msg = 'Unable to connect to API server'
+        current_app.logger.debug('data = %s', data['orbit'])
 
     return render_template(
         'ct_lbb6.html',

@@ -136,6 +136,11 @@ def ct_lbb6_index():
             'text': 'LBB6 star details',
             'uri': '/ct/lbb6/star',
             'api': '/api_doc?endpoint=/ct/lbb6/star'
+        },
+        {
+            'text': 'LBB6 orbit details',
+            'uri': '/ct/lbb6/orbit',
+            'api': '/api_doc?endpoint=/ct/lbb6/orbit'
         }
     ]
     navbar_items = [

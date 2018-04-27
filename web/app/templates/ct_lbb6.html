@@ -52,10 +52,34 @@
         {% endif %}
         {% if data.orbit %}
             <h3>Orbit</h3>
+            <table cell-padding="10">
+                <tr>
+                    <td>Orbit number</td><td>{{ data.orbit.orbit_no }}</td>
+                </tr>
+                <tr>
+                    <td>Radius</td>
+                    <td valign="top">{{ data.orbit.au }} AU<br>
+                    {{ data.orbit.mkm }} Mkm</td>
+                </tr>
+                <tr>
+                    <td>Star</td><td>{{ data.orbit.star }}</td>
+                </tr>
+                <tr>
+                    <td>Orbital period (years)</td><td>{{ data.orbit.period }}</td>
+                </tr>
+                <tr>
+                    <td>Star's angular diameter (degrees)</td>
+                    <td>{{ data.orbit.angular_diameter }}</td>
+                </tr>
+                <tr>
+                    <td>Notes</td>
+                    <td>{{ '<br>'.join(data.orbit.notes) }}</td>
+                </tr>
+            </table>
         {% endif %}
         {% if data.planet %}
             <h3>Planet</h3>
-            <table cellpadding="10">
+            <table cell-padding="10">
                 <tr>
                     <td>Name</td><td>{{ data.planet.name }}</td>
                 </tr>
