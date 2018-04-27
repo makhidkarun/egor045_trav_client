@@ -74,6 +74,16 @@
                     <td>Orbit</td><td>{{ data.planet.orbit }}</td>
                 </tr>
                 <tr>
+                    <td>Orbital period</td>
+                    <td>
+                        {% if data.planet.orbit %}
+                            {{ data.planet.orbital_period }} years
+                        {% else %}
+                            None
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
                     <td>Cloudiness</td>
                     <td>{{ data.planet.temperature_factors.cloudiness * 100 }}%</td>
                 </tr>
