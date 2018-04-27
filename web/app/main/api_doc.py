@@ -42,6 +42,10 @@ def api_doc():
 
         current_app.logger.debug('data = %s', data)
 
+    current_app.logger.debug('data = %s', data)
+    current_app.logger.debug('error_msg = %s', error_msg)
+    current_app.logger.debug('navbar_items = %s', navbar_items)
+    current_app.logger.debug('label = %s', label)
     return render_template(
         'api_doc.html',
         data=data,
