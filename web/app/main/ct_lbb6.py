@@ -108,7 +108,7 @@ def ct_lbb6_planet():
             except requests.ConnectionError:
                 current_app.logger.debug('Unable to connect to API endpoint')
                 error_msg = 'Unable to connect to API server'
-        current_app.logger.debug('data = %s', data['planet'])
+        current_app.logger.debug('data = %s', data)
 
     return render_template(
         'ct_lbb6.html',
@@ -164,7 +164,7 @@ def ct_lbb6_star():
             except requests.ConnectionError:
                 current_app.logger.debug('Unable to connect to API endpoint')
                 error_msg = 'Unable to connect to API server'
-        current_app.logger.debug('data = %s', data['star'])
+        current_app.logger.debug('data = %s', data)
 
     return render_template(
         'ct_lbb6.html',
@@ -220,7 +220,7 @@ def ct_lbb6_orbit():
             except requests.ConnectionError:
                 current_app.logger.debug('Unable to connect to API endpoint')
                 error_msg = 'Unable to connect to API server'
-        current_app.logger.debug('data = %s', data['orbit'])
+        current_app.logger.debug('data = %s', data)
 
     return render_template(
         'ct_lbb6.html',
