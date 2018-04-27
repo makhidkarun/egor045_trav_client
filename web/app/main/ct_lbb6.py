@@ -4,6 +4,7 @@ import requests
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField
 from wtforms.validators import Regexp, NumberRange, Optional, Required
+from wtforms.validators import ValidationError
 from flask import render_template, current_app
 from . import main
 
@@ -45,7 +46,7 @@ class CTLBB6OrbitInputForm(FlaskForm):
     '''Input form for CT LBB6 orbit'''
     orbit = IntegerField(
         'Orbit',
-        validators=[Required(), NumberRange(0, 19)]
+        # validators=[Optional(), NumberRange(0, 19)]
     )
     star = StringField(
         'Star',
@@ -53,6 +54,13 @@ class CTLBB6OrbitInputForm(FlaskForm):
     )
     submit = SubmitField('Submit')
 
+    def validate_orbit(self, field):
+        '''Custom orbit validator'''
+        if isinstance(field.data, int):
+            if int(field.data) not in range(0, 20):
+                raise ValidationError(
+                    'Invalid value for orbit (must be in range 0-19)'
+                )
 
 
 @main.route('/ct/lbb6/planet', methods=['GET', 'POST'])
@@ -215,7 +223,7 @@ def ct_lbb6_orbit():
                     data['orbit'] = resp.json()
                 else:
                     error_msg = 'Received status {} from API endpoint, message is {}'.format(
-                        resp.status_code, resp.json['description'])
+                        resp.status_code, resp.json()['description'])
                     current_app.logger.debug(error_msg)
             except requests.ConnectionError:
                 current_app.logger.debug('Unable to connect to API endpoint')
