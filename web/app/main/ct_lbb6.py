@@ -13,6 +13,7 @@ STAR_REGEXP = r'^([OBAFGKM]([0-9] ?(Ia|Ib|II|III|IV|V|VI)|D))$'
 
 NAVBAR_ITEMS = [
     {'label': 'Classic Traveller', 'target': 'main.ct_index'},
+    {'label': 'Classic Traveller LBB6 utilities', 'target': 'main.ct_lbb6_index'}
 ]
 
 
