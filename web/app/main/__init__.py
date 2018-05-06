@@ -9,3 +9,4 @@ main = Blueprint('main', __name__)
 from . import views, errors, t5_cargogen, t5_orbit, misc, ct_cargogen # noqa
 from . import ct_lbb6
 from . import api_doc     # noqa
+from . import ct_lbb3_encounter

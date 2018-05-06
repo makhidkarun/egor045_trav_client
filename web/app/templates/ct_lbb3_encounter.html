@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}CT LBB3 encounter table{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>CT LBB6 utilities</h1>
+    </div>
+    <div class="body">
+        {{ wtf.quick_form(form) }}
+        {% if error_msg %}
+            <h3>Error</h3>
+            {{ error_msg }}
+        {% endif %}
+        {% for terrain in tables %}
+            <table cellpadding="10">
+                <tr>
+                    <th>Terrain</th><td>{{ terrain }}</td>
+                    <th>UWP</th><td>{{ uwp }}</td>
+                </tr>
+                <tr>
+                    <table cellpadding="10">
+                        <tr>
+                            <th>Die</th><th>Animal Type</th>
+                            <th>Weight</th><th>Hits</th><th>Armor</th>
+                            <th colspan="3">Wounds &amp; Weapons</th>
+                        </tr>
+                        {% for row in tables[terrain]['rows'] %}
+                            <tr>
+                                <td align="right">{{row[0]}}</td>
+                                {% if row[1]['quantity'] == None %}
+                                <td colspan="7">
+                                    {{row[1]['type']}}
+                                </td>
+                                {% else %}
+                                    <td>{{row[1]['quantity']}} {{ row[1]['type'] }}</td>
+                                <td align="right">{{row[1]['weight']}}kg</td>
+                                <td>
+                                    {{row[1]['hits']['unconscious']}}/{{row[1]['hits']['dead']}}
+                                </td>
+                                <td>{{row[1]['armor']}}</td>
+                                <td>{{row[1]['wounds']}}</td>
+                                <td>{{row[1]['weapons']}}</td>
+                                <td>{{row[1]['behaviour']}}</td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </tr>
+            </table>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
