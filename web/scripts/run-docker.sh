@@ -6,6 +6,7 @@
 
 PORTS="5000:5000"
 IMAGE="egor045/traveller_tools_web:latest"
+NAME="web_dev"
 
 POSITIONAL=()
 while [[ $# -gt 0 ]] ; do
@@ -20,6 +21,10 @@ while [[ $# -gt 0 ]] ; do
             shift
             shift
             ;;
+        -n|--name)
+            NAME="$2"
+            shift
+            shift;;
         *)    # unknown option
             POSITIONAL+=("$1") # save it in an array for later
             shift # past argument
@@ -35,7 +40,7 @@ set -- "${POSITIONAL[@]}"
 echo Running docker image $IMAGE with env=$ENV, port=$PORTS
 
 if [ "$ENV" != "" ] ; then
-    /usr/bin/docker run --rm -p $PORTS -e $ENV $IMAGE
+    /usr/bin/docker run --rm --name "$NAME" -p $PORTS -e $ENV $IMAGE
 else
-    /usr/bin/docker run --rm -p $PORTS $IMAGE
+    /usr/bin/docker run --rm --name "$NAME" -p $PORTS $IMAGE
 fi
