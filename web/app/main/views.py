@@ -159,10 +159,10 @@ def ct_lbb6_index():
 @main.route('/ct/lbb3/index')
 def ct_lbb3_index():
     '''CT LBB3 index'''
-    intro_text = 'CT LBB6 tools'
+    intro_text = 'CT LBB3 tools'
     links = [
         {
-            'text': 'LBB3 planet details',
+            'text': 'LBB3 wilderness encounter tables',
             'uri': '/ct/lbb3/encounter',
             'api': '/api_doc?endpoint=/ct/lbb3/encounter'
         },
