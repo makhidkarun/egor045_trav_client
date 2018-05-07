@@ -11,7 +11,7 @@ UWP_REGEXP = r'^[A-HYX][0-9A-HJ-NP-Z]{6}\-[0-9A-HJ-NP-Z]$'
 
 NAVBAR_ITEMS = [
     {'label': 'Classic Traveller', 'target': 'main.ct_index'},
-    {'label': 'Classic Traveller LBB6 utilities', 'target': 'main.ct_lbb6_index'}
+    {'label': 'Classic Traveller LBB3 utilities', 'target': 'main.ct_lbb3_index'}
 ]
 
 TERRAIN_TYPES_TABLE = [
