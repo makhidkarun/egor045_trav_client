@@ -71,7 +71,7 @@ class EnvironmentForm(FlaskForm):
             ('Cave', 'Cave'),
             ('Chasm', 'Chasm'),
             ('Crater', 'Crater'),
-            # ('All', 'All terrain types'),
+            ('All', 'All terrain types'),
         ],
         validators=[Required()]
     )
@@ -106,30 +106,64 @@ def ct_lbb3_encounter():
             request_uri_elements.append('uwp={}'.format(form.uwp.data))
 
         if form.terrain.data == 'All':
-            pass
+            for terrain in TERRAIN_TYPES_TABLE:
+                request_uri_base = list(request_uri_elements)
+
+                try:
+                    request_uri_base.append('terrain={}'.format(terrain))
+                    current_app.logger.debug('request_uri_')
+                    current_app.logger.debug(
+                        'request_uri_base = %s',
+                        request_uri_base
+                    )
+                    request_uri = '&'.join(request_uri_base)
+                    current_app.logger.debug(
+                        'request_uri = %s',
+                        request_uri
+                    )
+
+                    current_app.logger.debug(
+                        'Calling API endpoint %s?%s',
+                        base_api_url, request_uri
+                        )
+                    resp = requests.get(base_api_url + '?' + request_uri)
+                    if resp.status_code == 200:
+                        current_app.logger.debug(
+                            'API server returned %s', resp.json()
+                        )
+                        tables[terrain] = resp.json()
+
+                    else:
+                        error_msg = 'Received status {} from API endpoint, message is {}'.format(
+                            resp.status_code, resp.json['description'])
+                        current_app.logger.debug(error_msg)
+                except requests.ConnectionError:
+                    current_app.logger.debug('Unable to connect to API endpoint')
+                    error_msg = 'Unable to connect to API server'
+
         else:
             request_uri_elements.append('terrain={}'.format(form.terrain.data))
             request_uri = '&'.join(request_uri_elements)
 
-        try:
-            current_app.logger.debug(
-                'Calling API endpoint %s%s',
-                base_api_url, request_uri
-                )
-            resp = requests.get(base_api_url + '?' + request_uri)
-            if resp.status_code == 200:
+            try:
                 current_app.logger.debug(
-                    'API server returned %s', resp.json()
-                )
-                tables[form.terrain.data] = resp.json()
+                    'Calling API endpoint %s?%s',
+                    base_api_url, request_uri
+                    )
+                resp = requests.get(base_api_url + '?' + request_uri)
+                if resp.status_code == 200:
+                    current_app.logger.debug(
+                        'API server returned %s', resp.json()
+                    )
+                    tables[form.terrain.data] = resp.json()
 
-            else:
-                error_msg = 'Received status {} from API endpoint, message is {}'.format(
-                    resp.status_code, resp.json['description'])
-                current_app.logger.debug(error_msg)
-        except requests.ConnectionError:
-            current_app.logger.debug('Unable to connect to API endpoint')
-            error_msg = 'Unable to connect to API server'
+                else:
+                    error_msg = 'Received status {} from API endpoint, message is {}'.format(
+                        resp.status_code, resp.json['description'])
+                    current_app.logger.debug(error_msg)
+            except requests.ConnectionError:
+                current_app.logger.debug('Unable to connect to API endpoint')
+                error_msg = 'Unable to connect to API server'
 
     current_app.logger.debug('tables = %s', tables)
 
