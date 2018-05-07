@@ -71,7 +71,6 @@ class EnvironmentForm(FlaskForm):
             ('Cave', 'Cave'),
             ('Chasm', 'Chasm'),
             ('Crater', 'Crater'),
-            ('All', 'All terrain types'),
         ],
         validators=[Required()]
     )
